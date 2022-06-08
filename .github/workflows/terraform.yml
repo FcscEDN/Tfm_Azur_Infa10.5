@@ -45,7 +45,7 @@ jobs:
 
     - name: terraform Plan
       run: terraform plan 
-      working-directory: ${{ env.ROOT_PATH }}/Tfm_Azur_Infa10.5/Terrafrom-aks
+      working-directory: ${{ env.ROOT_PATH }}/Terrafrom-aks
       
 
   terraform_apply:
