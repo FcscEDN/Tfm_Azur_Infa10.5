@@ -43,8 +43,8 @@ variable "SP_TENANT_ID"{
    description = "SP_TENANT_ID" 
 }
 
-variable "SP_TENANT_ID" {}
-variable "SUBSCRIPTION_ID" {}
+#variable "SP_TENANT_ID" {}
+#variable "SUBSCRIPTION_ID" {}
 
 #Variables from <env>.auto.tfvars
 # Variables for main.tf
