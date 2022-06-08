@@ -1,0 +1,53 @@
+
+name: 'Tfm_Azur_Infa10'
+
+on:
+  push:
+    branches:
+      - main
+    # paths:
+    #   - '**./FcscEDN/Tfm_Azur_Infa10.5**'
+  pull_request:
+  workflow_dispatch: 
+  
+
+jobs:
+  terraform_plan:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    environment: production
+    env: 
+      ROOT_PATH: '/../FcscEDN/Tfm_Azur_Infa10.5'
+      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+      ARM_SKIP_PROVIDER_REGISTRATION: ${{secrets.AZURE_SKIP_PROVIDER_REGISTRATION}}
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+     - name: checkout
+       uses: actions/checkout@v2
+     - name: terraform
+       with:
+          action: init
+          directory: ${{env.ROOT_PATH}}
+     - name: terraform validate
+       with:
+          action: validate
+          directory: ${{env.ROOT_PATH}}
+    
+     - name: terraform plan
+       with:
+          action: plan
+          directory: ${{env.ROOT_PATH}}
+
+     - name: terraform apply
+       with:
+          action: plan
+          directory: ${{env.ROOT_PATH}}
