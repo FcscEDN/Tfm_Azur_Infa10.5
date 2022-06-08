@@ -45,7 +45,7 @@ jobs:
 
     - name: terraform Plan
       run: terraform plan 
-      working-directory: /../Tfm_Azur_Infa10.5
+      working-directory: /FcscEDN
       
 
   terraform_apply:
