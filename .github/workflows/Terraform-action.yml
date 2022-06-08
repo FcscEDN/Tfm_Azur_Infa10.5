@@ -71,7 +71,11 @@ jobs:
     - name: terraform Init
       run: terraform init
       working-directory: ${{ env.ROOT_PATH }}
-
+      
+    - name: terraform Plan
+      run: terraform plan 
+      working-directory: ${{ env.ROOT_PATH }}
+    
     - name: terraform Init
       run: echo 'var -> ${{inputs.tf_destroy}}'
       working-directory: ${{ env.ROOT_PATH }}
