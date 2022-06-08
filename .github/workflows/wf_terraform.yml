@@ -21,7 +21,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
       ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
       ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
-   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -30,8 +30,8 @@ jobs:
 
     steps:
     # Checkout the repository to the GitHub Actions runner
-     - name: checkout
-       uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -39,7 +39,7 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init dev/
-       - name: Terraform Plan
+      - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -var-file=dev/.auto.tfvars -lock-timeout=600s dev/
         continue-on-error: true
