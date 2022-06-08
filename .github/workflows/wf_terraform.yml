@@ -1,5 +1,5 @@
 
-name: 'Terraform-action'
+name: 'Terraform-aks'
 
 on:
   push:
@@ -12,10 +12,12 @@ on:
   
 
 jobs:
+  terraform:
+    name: "Terraform"
   terraform_plan:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: production
+   # name: 'Terraform'
+  runs-on: ubuntu-latest
+    #environment: production
     env: 
       ROOT_PATH: './Terrafrom-aks'
       ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
@@ -32,25 +34,46 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
      - name: checkout
        uses: actions/checkout@v2
-     - name: terraform
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: init
-          directory: ${{env.ROOT_PATH}}
-     - name: terraform validate
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: validate
-          directory: ${{env.ROOT_PATH}}
-    
-     - name: terraform plan
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: plan
-          directory: ${{env.ROOT_PATH}}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.5     
+      - name: Terraform Init
+        id: init
+        run: terraform init dev/
+       - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -var-file=dev/.auto.tfvars -lock-timeout=600s dev/
+        continue-on-error: true
+ 
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
 
-     - name: terraform apply
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: plan
-          directory: ${{env.ROOT_PATH}}
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -var-file=dev/.auto.tfvars -lock-timeout=7200s dev/
+        
+    # - name: terraform
+ #      uses: robertdebock/terraform-action@1.1.2
+ #      with:
+  #        action: init
+ #         directory: ${{env.ROOT_PATH}}
+#     - name: terraform validate
+ #      uses: robertdebock/terraform-action@1.1.2
+  #     with:
+   #       action: validate
+    #      directory: ${{env.ROOT_PATH}}
+    
+     #- name: terraform plan
+     #  uses: robertdebock/terraform-action@1.1.2
+      # with:
+       #   action: plan
+       #   directory: ${{env.ROOT_PATH}}
+
+#     - name: terraform apply
+ #      uses: robertdebock/terraform-action@1.1.2
+  #     with:
+   #       action: plan
+    #      directory: ${{env.ROOT_PATH}}
+          
