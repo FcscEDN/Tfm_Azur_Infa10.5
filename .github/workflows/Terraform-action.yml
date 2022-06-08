@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-
+    paths:
+      - "FcscEDN/Tfm_Azur_Infa10.5/*"
+      
   pull_request:
     branches:
       - main
