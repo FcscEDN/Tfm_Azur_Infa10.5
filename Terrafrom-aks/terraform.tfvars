@@ -4,4 +4,4 @@ cluster_name        = "infa-aks"
 kubernetes_version  = "1.22.6"
 system_node_count   = 1
 acr_name            = "infaacr"
-node_size           = "standard_b1s"
+node_size           = "standard_DSv2"
