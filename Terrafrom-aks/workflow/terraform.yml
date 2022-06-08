@@ -1,11 +1,12 @@
-name: 'terraform-Azure'
+name: 'terraform'
 
 on:
   push:
     branches:
       - main
     paths:
-      - "/actions/terraform-azure/*"
+      - "FcscEDN/Tfm_Azur_Infa10.5"
+      
   pull_request:
     branches:
       - main
@@ -70,7 +71,11 @@ jobs:
     - name: terraform Init
       run: terraform init
       working-directory: ${{ env.ROOT_PATH }}
-
+      
+    - name: terraform Plan
+      run: terraform plan 
+      working-directory: ${{ env.ROOT_PATH }}
+    
     - name: terraform Init
       run: echo 'var -> ${{inputs.tf_destroy}}'
       working-directory: ${{ env.ROOT_PATH }}
