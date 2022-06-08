@@ -42,3 +42,12 @@ variable "SP_TENANT_ID"{
    type        = string
    description = "SP_TENANT_ID" 
 }
+
+variable "SP_TENANT_ID" {}
+variable "SUBSCRIPTION_ID" {}
+
+#Variables from <env>.auto.tfvars
+# Variables for main.tf
+variable "standard_tags" {
+  type = map(any)
+}
