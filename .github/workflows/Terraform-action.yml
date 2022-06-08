@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "/actions/terraform-azure/*"
+
   pull_request:
     branches:
       - main
@@ -45,7 +44,7 @@ jobs:
 
     - name: terraform Plan
       run: terraform plan 
-      working-directory: /FcscEDN
+      working-directory: ${{ env.ROOT_PATH }}
       
 
   terraform_apply:
