@@ -1,56 +1,82 @@
-
-name: 'Terraform-action'
+name: 'terraform-Azure'
 
 on:
   push:
     branches:
       - main
-    # paths:
-    #   - '**/actions/terraform-azure/**'
+    paths:
+      - "/actions/terraform-azure/*"
   pull_request:
+    branches:
+      - main
   workflow_dispatch: #this attribute will enable the manual run to the pipeline
   
 
-jobs:
-  terraform_plan:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: production
-    env: 
+# Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+defaults:
+  run:
+    shell: bash
+env: 
       ROOT_PATH: '${{github.workspace}}'
       ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
       ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
       ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
       ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+      ARM_SKIP_PROVIDER_REGISTRATION: ${{secrets.AZURE_SKIP_PROVIDER_REGISTRATION}}
+      STAGE_NAME: production
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+jobs:
+  terraform_plan:
+    name: 'terraform plan'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+  
+    - name: terraform init
+      run: terraform init
+      working-directory: ${{ env.ROOT_PATH }}
+
+    - name: terraform Plan
+      run: terraform plan 
+      working-directory: ${{ env.ROOT_PATH }}
+      
+
+  terraform_apply:
+    name: 'terraform apply'
+    needs: [terraform_plan]
+    runs-on: ubuntu-latest
+    environment: production
+    
     defaults:
       run:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-     - name: checkout
-       uses: actions/checkout@v2
-     - name: terraform
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: init
-          directory: ${{env.ROOT_PATH}}
-     - name: terraform validate
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: validate
-          directory: ${{env.ROOT_PATH}}
-    
-     - name: terraform plan
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: plan
-          directory: ${{env.ROOT_PATH}}
+    - name: Checkout
+      uses: actions/checkout@v2
 
-     - name: terraform apply
-       uses: robertdebock/terraform-action@1.1.2
-       with:
-          action: plan
-          directory: ${{env.ROOT_PATH}}
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+ 
+    - name: terraform Init
+      run: terraform init
+      working-directory: ${{ env.ROOT_PATH }}
+
+    - name: terraform Init
+      run: echo 'var -> ${{inputs.tf_destroy}}'
+      working-directory: ${{ env.ROOT_PATH }}
+
+      #github.ref == 'refs/heads/main' && github.event_name == 'push'
+    - name: terraform Apply
+      run: terraform apply -auto-approve
+      if: ${{inputs.tf_destroy}} == false
+      working-directory: ${{ env.ROOT_PATH }}
