@@ -17,7 +17,7 @@ defaults:
   run:
     shell: bash
 env: 
-      ROOT_PATH: '/FcscEDN/Tfm_Azur_Infa10.5/*'
+      ROOT_PATH: '${{github.workspace}}'
       ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
       ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
       ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
@@ -45,7 +45,7 @@ jobs:
 
     - name: terraform Plan
       run: terraform plan 
-      working-directory: ${{ env.ROOT_PATH }}
+      working-directory: ${{ env.ROOT_PATH }}/Tfm_Azur_Infa10.5/Terrafrom-aks
       
 
   terraform_apply:
