@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '**/actions/Terraform-aks/**'
+   # paths:
+  #    - '**/actions/Terraform-aks/**'
   pull_request:
 #  workflow_dispatch: #this attribute will enable the manual run to the pipeline
   
