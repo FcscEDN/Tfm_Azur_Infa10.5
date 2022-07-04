@@ -17,7 +17,7 @@ jobs:
     #environment: production
     env: 
       #ROOT_PATH: '../Terrafrom-aks/'
-      ROOT_PATH: '../'
+      #ROOT_PATH: '../'
       #ROOT_PATH:  'git::https://github.com/FcscEDN/Tfm_Azur_Infa10.5/tree/main/Terrafrom-aks'
       VAR_AP_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
       VAR_AP_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
@@ -53,7 +53,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -lock-timeout=7200s
         
     # - name: terraform
