@@ -17,10 +17,10 @@ jobs:
     #environment: production
     env: 
       ROOT_PATH: './Terrafrom-aks'
-      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
-      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
-      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+      VAR_AP_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
+      VAR_AP_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
+      VAR_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      VAR_AP_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
     runs-on: ubuntu-latest
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     #defaults:
@@ -39,11 +39,11 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init dev/
+        run: terraform init
         
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file=dev/.auto.tfvars -lock-timeout=600s dev/
+        run: terraform plan -no-color -lock-timeout=600s
         continue-on-error: true
  
       - name: Terraform Plan Status
@@ -52,7 +52,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -var-file=dev/.auto.tfvars -lock-timeout=7200s dev/
+        run: terraform apply -auto-approve -lock-timeout=7200s
         
     # - name: terraform
  #      uses: robertdebock/terraform-action@1.1.2
