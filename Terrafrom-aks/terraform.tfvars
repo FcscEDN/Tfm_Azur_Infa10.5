@@ -5,7 +5,4 @@ kubernetes_version  = "1.22.6"
 system_node_count   = 1
 acr_name            = "infaacr"
 node_size           = "standard_DSv2"
-SUBSCRIPTION_ID = ${{secrets.ARM_CLIENT_ID}}
-SP_CLIENT_ID       = ${{secrets.AZURE_CLIENT_ID}}
-SP_CLIENT_SECRET   = ${{secrets.AZURE_CLIENT_SECRET}}
-SP_TENANT_ID       = ${{secrets.AZURE_TENANT_ID}}
+
