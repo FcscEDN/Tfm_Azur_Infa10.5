@@ -81,5 +81,5 @@ jobs:
       #github.ref == 'refs/heads/main' && github.event_name == 'push'
     - name: terraform import
       run: terraform apply -auto-approve
-      if: ${{inputs.tf_destroy}} == false
-      working-directory: ${{ env.ROOT_PATH }}
+      #if: ${{inputs.tf_destroy}} == false
+     # working-directory: ${{ env.ROOT_PATH }}
