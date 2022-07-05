@@ -26,3 +26,19 @@ variable "node_size"{
    type        = string
    description = "Node Size" 
 }
+variable "SUBSCRIPTION_ID"{
+   type        = string
+   description = "SUBSCRIPTION_IDe" 
+}
+variable "SP_CLIENT_ID"{
+   type        = string
+   description = "SP_CLIENT_ID" 
+}
+variable "SP_CLIENT_SECRET"{
+   type        = string
+   description = "SP_CLIENT_SECRET" 
+}
+variable "SP_TENANT_ID"{
+   type        = string
+   description = "SP_TENANT_ID" 
+}
