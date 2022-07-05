@@ -11,47 +11,45 @@ on:
   
 jobs:
   terraform:
-    name: "Terraform"
-  terraform_plan:
-   # name: 'Terraform'
-    #environment: production
-    env: 
-      ROOT_PATH: './Terrafrom-aks'
-      ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
-      ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
-      ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
-    runs-on: ubuntu-latest
+          name: 'Terraform'
+          #environment: production
+          env: 
+            ROOT_PATH: './Terrafrom-aks'
+            ARM_CLIENT_ID: ${{secrets.AZURE_AD_CLIENT_ID}}
+            ARM_CLIENT_SECRET: ${{secrets.AZURE_AD_CLIENT_SECRET}}
+            ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+            ARM_TENANT_ID: ${{secrets.AZURE_AD_TENANT_ID}}
+          runs-on: ubuntu-latest
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
+          # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+          defaults:
+            run:
+              shell: bash
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.13.5     
-      - name: Terraform Init
-        id: init
-        run: terraform init dev/
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color -var-file=dev/.auto.tfvars -lock-timeout=600s dev/
-        continue-on-error: true
- 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
+          steps:
+          # Checkout the repository to the GitHub Actions runner
+            - name: checkout
+              uses: actions/checkout@v2
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v1
+              with:
+                terraform_version: 0.13.5     
+            - name: Terraform Init
+              id: init
+              run: terraform init dev/
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan -no-color -var-file=dev/.auto.tfvars -lock-timeout=600s dev/
+              continue-on-error: true
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -var-file=dev/.auto.tfvars -lock-timeout=7200s dev/
-        
+            - name: Terraform Plan Status
+              if: steps.plan.outcome == 'failure'
+              run: exit 1
+
+            - name: Terraform Apply
+              if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+              run: terraform apply -auto-approve -var-file=dev/.auto.tfvars -lock-timeout=7200s dev/
+
     # - name: terraform
  #      uses: robertdebock/terraform-action@1.1.2
  #      with:
