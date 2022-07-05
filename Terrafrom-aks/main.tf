@@ -29,7 +29,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name                = "system"
     node_count          = var.system_node_count
     vm_size             = var.node_size
-    type                = "VirtualMachineScaleSets"
+    #type                = "VirtualMachineScaleSets"
     #enable_virtual_nodes= false
     #availability_zones  = none
     enable_auto_scaling = false
