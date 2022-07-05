@@ -40,7 +40,7 @@ jobs:
   
     - name: terraform init
       run: terraform init
-      working-directory: ${{ env.ROOT_PATH }}
+      working-directory: ${{ env.ROOT_PATH }}/Terrafrom-aks
 
     - name: terraform Plan
       run: terraform plan 
@@ -68,14 +68,14 @@ jobs:
  
     - name: terraform Init
       run: terraform init
-      working-directory: ${{ env.ROOT_PATH }}
+      working-directory: ${{ env.ROOT_PATH }}/Terrafrom-aks
 
     - name: terraform Init
       run: echo 'var -> ${{inputs.tf_destroy}}'
-      working-directory: ${{ env.ROOT_PATH }}
+      working-directory: ${{ env.ROOT_PATH }}/Terrafrom-aks
 
       #github.ref == 'refs/heads/main' && github.event_name == 'push'
     - name: terraform Apply
       run: terraform apply -auto-approve
       if: ${{inputs.tf_destroy}} == false
-      working-directory: ${{ env.ROOT_PATH }}
+      working-directory: ${{ env.ROOT_PATH }}/Terrafrom-aks
