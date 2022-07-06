@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: fcscacr.azurecr.io
+        username: ${{ secrets.acr_fcscacr_username }}
+        password: ${{ secrets.acr_fcscacr_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/infa" -f  "infa/informatica1052" -t fcscacr.azurecr.io/fcsainformatica:${{ github.sha }} --label dockerfile-path=infa/informatica1052
+        docker push fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_fcsainformatica_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep fcsa_informaticaaa1f | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace fcsa_informaticaaa1f`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: fcsa_informaticaaa1f
+        container-registry-url: fcscacr.azurecr.io
+        container-registry-username: ${{ secrets.acr_fcscacr_username }}
+        container-registry-password: ${{ secrets.acr_fcscacr_password }}
+        secret-name: fcsainformatdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: fcsa_informaticaaa1f
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
+        imagepullsecrets: |
+          fcsainformatdockerauth
