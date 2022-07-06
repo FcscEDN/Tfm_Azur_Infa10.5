@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "fcsainformatica-802e"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "fcsainformatica-802e"
+  template:
+    metadata:
+      labels:
+        app: "fcsainformatica-802e"
+    spec:
+      containers:
+        - name: "fcsainformatica-802e"
+          image: "fcscacr.azurecr.io/fcsainformatica"
+          ports:
+          - containerPort: 8181
