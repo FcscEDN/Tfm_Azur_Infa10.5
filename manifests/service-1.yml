@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: "fcsainformatica-802e"
+    labels:
+        app: "fcsainformatica-802e"
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 8181
+      targetPort: 8181
+      protocol: TCP
+      name: http
+    selector:
+        app: "fcsainformatica-802e"
