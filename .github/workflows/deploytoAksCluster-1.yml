@@ -31,7 +31,7 @@ jobs:
             echo `kubectl create namespace infadomain`
         fi
 
-    - uses: azure/k8s-create-secret@v1
+    - uses: azure/k8s-create-secret@v3.1
       with:
         namespace: infadomain
         container-registry-url: fcscacr.azurecr.io
