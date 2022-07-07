@@ -12,10 +12,11 @@ jobs:
         password: '${{secrets.AZURE_AD_CLIENT_SECRET}}'
     
     - name: Build and push image to ACR
+      uses: actions/checkout@v2
       id: build-image
-      run: |
-        docker build '${{github.workspace}}~/Informatica-main' -f  'Dockerfile_EDC' -t fcscacr.azurecr.io/fcsainformatica:${{ github.sha }} --label dockerfile-path=Informatica-main/
-        docker push fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
+      #run: |
+       # docker build '${{github.workspace}}' -f  'Dockerfile_EDC' -t fcscacr.azurecr.io/fcsainformatica:${{ github.sha }} --label dockerfile-path=Informatica-main/
+        #docker push fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
     
     - uses: azure/k8s-set-context@v1
       with:
