@@ -24,7 +24,7 @@ RUN export OS_VERSION="$(grep release /etc/*-release | cut -d: -f2 | sort -u | s
 
 RUN \
   #Install some basic commands
-  yum install wget libaio csh file krb5-libs krb5-workstation iputils zip unzip bind-utils traceroute telnet nc net-tools which gcc man rsync make openssh-clients openssh-server initscripts kernel-devel libtirpc-devel openssl libxslt systemd-sysv sudo -y && \
+  #yum install wget libaio csh file krb5-libs krb5-workstation iputils zip unzip bind-utils traceroute telnet nc net-tools which gcc man rsync make openssh-clients openssh-server initscripts kernel-devel libtirpc-devel openssl libxslt systemd-sysv sudo -y && \
   #
   #Enabling NTP for clock synchronization
   #systemctl enable ntpd && \
@@ -37,8 +37,8 @@ RUN \
   
   #
  #setup ssh
-ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' && \
-  cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+#ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' && \
+#  cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
   
   #yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y && \
  
@@ -60,9 +60,9 @@ ssh-keygen -f /root/.ssh/id_rsa -t rsa -N '' && \
   ADD /third_party_dependency/oracle/*.rpm /Installer/oracle_client_rpms/
   
   
-  RUN yum install -y libaio.x86_64 glibc.x86_64 && \
-      rpm -ivh /Installer/oracle_client_rpms/*.rpm && \
-	  mkdir -p /usr/lib/oracle/12.2/client64/network/admin && \
+  #RUN yum install -y libaio.x86_64 glibc.x86_64 && \
+      #rpm -ivh /Installer/oracle_client_rpms/*.rpm && \
+	  #mkdir -p /usr/lib/oracle/12.2/client64/network/admin && \
 	  echo "*               soft    nofile          100000" >> /etc/security/limits.conf && \
       echo "*               hard    nofile          100000" >> /etc/security/limits.conf && \
       echo "*               soft    nproc           100000" >> /etc/security/limits.conf && \
@@ -109,9 +109,9 @@ echo export INFA_HOME=/home/Informatica >> /home/nroot/.bash_profile && \
 echo export PATH=$PATH:/home/Informatica/services/shared/bin >> /home/nroot/.bash_profile
 
 
-COPY ["/InstallerConfig", "/InstallerConfig"]
-COPY ["/Installer", "/Installer"]
-COPY ["/Binaries", "/home/Informatica"]
+#COPY ["/InstallerConfig", "/InstallerConfig"]
+#COPY ["/Installer", "/Installer"]
+#COPY ["/Binaries", "/home/Informatica"]
 #ENTRYPOINT ["/sbin/init"]
 #CMD ["/bin/bash", "/Installer/launcher.sh"]
 #ENTRYPOINT ["/sbin/init"]
