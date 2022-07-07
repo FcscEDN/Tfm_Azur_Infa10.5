@@ -34,12 +34,11 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
-  CONTAINER_NAME: "your-container-name"
-  RESOURCE_GROUP: "your-resource-group"
-  CLUSTER_NAME: "your-cluster-name"
-  IMAGE_PULL_SECRET_NAME: "your-image-pull-secret-name"
-  DEPLOYMENT_MANIFEST_PATH: 'your-deployment-manifest-path'
+      ROOT_PATH: '${{github.workspace}}'
+      ARM_CLIENT_ID: '${{secrets.AZURE_AD_CLIENT_ID}}'
+      ARM_CLIENT_SECRET: '${{secrets.AZURE_AD_CLIENT_SECRET}}'
+      ARM_SUBSCRIPTION_ID: '${{secrets.AZURE_SUBSCRIPTION_ID}}'
+      ARM_TENANT_ID: '${{secrets.AZURE_AD_TENANT_ID}}'
 
 jobs:
   buildImage:
