@@ -14,7 +14,7 @@ jobs:
     - name: Build and push image to ACR
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/Dockerfile_EDC" -f  "Dockerfile_EDC" -t fcscacr.azurecr.io/fcsainformatica:${{ github.sha }} --label dockerfile-path=Informatica-main/
+        docker build "/home/runner/work/Tfm_Azur_Infa10.5/Dockerfile_EDC" -f  "Dockerfile_EDC" -t fcscacr.azurecr.io/fcsainformatica:${{ github.sha }} --label dockerfile-path=Informatica-main/
         docker push fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
     
     - uses: azure/k8s-set-context@v1
