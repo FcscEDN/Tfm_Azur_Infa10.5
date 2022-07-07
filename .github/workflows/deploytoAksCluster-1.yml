@@ -39,12 +39,13 @@ jobs:
         container-registry-password: '${{secrets.AZURE_AD_CLIENT_SECRET}}'
         secret-name: fcsainformatdockerauth
         
-    - name: Deploys application
-      uses: Azure/k8s-deploy@v3.1
+    - uses: Azure/k8s-deploy@v1.1
       with:
-        action: deploy
-        manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+        namespace: infadomain
+        manifests: |
+          manifests/deployment-1.yml
+          manifests/service-1.yml
         images: |
-          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+          fcscacr.azurecr.io/fcsainformatica:${{ github.sha }}
         imagepullsecrets: |
-          ${{ env.IMAGE_PULL_SECRET_NAME }}
+          fcsainformatdockerauth
