@@ -22,8 +22,8 @@ jobs:
            with:
               container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
               container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-              cluster-name: contoso
-              resource-group: contoso-rg
+              cluster-name: infadomain
+              resource-group: FCSA_informatica
 
          - uses: Azure/k8s-create-secret@v1.1
            with:
