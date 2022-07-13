@@ -12,7 +12,7 @@ jobs:
               password: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
 
          - run: |
-               docker build . -t fcscacr.azurecr.io/fcsainformatica:cad6d5e0c7520336b2837cd40b88ccb2567cfea1
+               docker pull fcscacr.azurecr.io/fcsainformatica:cad6d5e0c7520336b2837cd40b88ccb2567cfea1
                docker push fcscacr.azurecr.io/fcsainformatica:cad6d5e0c7520336b2837cd40b88ccb2567cfea1
 
          - uses: azure/setup-kubectl@v2.0
