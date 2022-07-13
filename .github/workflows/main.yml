@@ -20,7 +20,8 @@ jobs:
          # Set the target AKS cluster.
          - uses: Azure/aks-set-context@v1
            with:
-              creds: '${{ secrets.AZURE_CREDENTIALS }}'
+              container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+              container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
               cluster-name: contoso
               resource-group: contoso-rg
 
