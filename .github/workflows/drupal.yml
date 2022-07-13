@@ -1,0 +1,35 @@
+on: 
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - main
+      - '${{github.workspace}}/terraform_drupal'
+      - 'releases/beta/Hassan'
+
+name: terraform
+
+
+jobs:
+
+
+
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        
+      - name: terraform
+        run: terraform init
+        
+      - name: Terraform Format
+        run: terraform fmt -check
+        
+      - name: Terraform Plan
+        run: terraform plan -input=false
