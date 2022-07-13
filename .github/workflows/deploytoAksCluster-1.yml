@@ -33,7 +33,7 @@ jobs:
 
     - uses: azure/k8s-create-secret@v2.1
       with:
-        namespace: infadomain
+        namespace: fcsa_informatica
         container-registry-url: fcscacr.azurecr.io
         container-registry-username: '${{secrets.AZURE_AD_CLIENT_ID}}'
         container-registry-password: '${{secrets.AZURE_AD_CLIENT_SECRET}}'
@@ -41,7 +41,7 @@ jobs:
         
     - uses: Azure/k8s-deploy@v1.1
       with:
-        namespace: infadomain
+        namespace: fcsa_informatica
         manifests: |
           manifests/deployment-1.yml
           manifests/service-1.yml
